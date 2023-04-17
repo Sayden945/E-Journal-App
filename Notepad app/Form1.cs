@@ -65,7 +65,6 @@ namespace Notepad_app
         public void PrintQueue()
         {
             //Refresh listview with data currently in directory
-
             dirList.Items.Clear();
             string directoryLocation = folder;
             DirectoryInfo di = new DirectoryInfo(directoryLocation);
@@ -97,8 +96,12 @@ namespace Notepad_app
             PrintQueue();
         }
 
-        private void ReadText(string selectedItem)
+        private void ReadText()
         {
+            ////Code for on click of delete
+            string selectedItem = dirList.Items[dirList.SelectedIndex].ToString();
+            Console.WriteLine(selectedItem);
+
             //Read text from file
             string fileLocation = folder + selectedItem;
             string returnedText = File.ReadAllText(fileLocation);
@@ -106,37 +109,35 @@ namespace Notepad_app
             Console.WriteLine($"Text returned: {returnedText}");
 
             entryText.Text = returnedText;
-
         }
 
 
 
         private void loadFile_Click(object sender, EventArgs e)
         {
-            ////Code for on click of delete
-            string selectedItem = dirList.Items[dirList.SelectedIndex].ToString();
-            Console.WriteLine(selectedItem);
-
-            ReadText(selectedItem);
+            ReadText();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            //Code for on click of delete
-            string selectedItem = dirList.Items[dirList.SelectedIndex].ToString();
-            DelText(selectedItem);
-            Console.WriteLine($"File deleted: {selectedItem}");
+
+            DelText();
 
             PrintQueue();
         }
 
-        private void DelText(string selectedItem)
+        private void DelText()
         {
-            //Delete file
+            //find file
+            string selectedItem = dirList.Items[dirList.SelectedIndex].ToString();
             string fileLocation = folder + selectedItem;
-            string returnedText = File.ReadAllText(fileLocation);
+
+            //Delete file
             File.Delete(fileLocation);
+            Console.WriteLine($"File deleted: {selectedItem}");
+            entryText.Clear();
         }
+
     }
 
 }
